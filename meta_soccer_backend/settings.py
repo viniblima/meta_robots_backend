@@ -47,6 +47,10 @@ INSTALLED_APPS = [
 
     # apps
     'apps.users',
+    'apps.teams',
+    'apps.robots',
+    'apps.request_join_team',
+    'apps.match',
 ]
 
 # REST Configuration
