@@ -1,6 +1,10 @@
+from datetime import timedelta
+from django.conf import settings
 from rest_framework import serializers
-from .models import User
 
+from apps.robots.models import Robot
+from .models import User
+from django.utils import timezone
 import django.contrib.auth.password_validation as validators
 
 from django.core import exceptions
@@ -13,7 +17,7 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = (
-            'id', 'date_of_birth', 'name', 'email', 'gender', 'is_staff', 'is_confirm'
+            'id', 'date_of_birth', 'name', 'email', 'gender', 'is_staff', 'is_confirm', 'robots'
         )
 
         read_only = (
@@ -83,7 +87,6 @@ class CreateUserSerializer(serializers.ModelSerializer):
                                         gender=validated_data['gender'],
                                         password=validated_data['password'],
                                         )
-        # user.save()
 
         try:
             User.objects.filter(id=user.id)
@@ -96,5 +99,5 @@ class CreateUserSerializer(serializers.ModelSerializer):
 
         payload = jwt_payload_handler(user)
         token = jwt_encode_handler(payload)
-
-        return {'token': token, 'data': UserSerializer(user).data}
+        expires_in = timezone.now() + timedelta(hours=settings.TOKEN_EXPIRED_AFTER_HOURS)
+        return {'token': token, 'expires_in': expires_in, 'data': UserSerializer(user).data}

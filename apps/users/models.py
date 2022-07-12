@@ -1,10 +1,12 @@
 from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractUser
+from django.forms import ValidationError
 from django.utils.translation import ugettext_lazy as _
 from django.db import models
 
 import uuid
 # Create your models here.
+
 
 class UserManager(BaseUserManager):
     use_in_migrations = True
@@ -86,7 +88,8 @@ class User(AbstractUser):
         default=False,
         help_text=_('Define se esse usuário pode logar no site admin')
     )
-
+    robots = models.ManyToManyField(
+        'robots.Robot', related_name='robots', blank=True)
     is_active = models.BooleanField(_('Ativo'), default=True)
     is_confirm = models.BooleanField(_('Ativo'), default=False)
     objects = UserManager()
@@ -105,6 +108,11 @@ class User(AbstractUser):
     def delete(self, using=None, keep_parents=False):
         self.is_active = False
         self.save(update_fields=['is_active'])
+
+    def clean(self, *args, **kwargs):
+        if self.robots.count() > 3:
+            raise ValidationError('Nao pode ter mais de 3 robos por usuário')
+        return super(User, self).clean(*args, **kwargs)
 
     class Meta:
         # abstract = False

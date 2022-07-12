@@ -15,6 +15,8 @@ import datetime
 
 import dj_database_url
 
+from django.utils.translation import ugettext_lazy as _
+
 from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -51,6 +53,7 @@ INSTALLED_APPS = [
     'apps.robots',
     'apps.request_join_team',
     'apps.match',
+    'apps.trains'
 ]
 
 # REST Configuration
@@ -78,9 +81,44 @@ REST_FRAMEWORK = {
     'TEST_REQUEST_DEFAULT_FORMAT': 'json'
 }
 
+TOKEN_EXPIRED_AFTER_HOURS = 24
+
+ENERGY_BAR_COLOR_OPTIONS = (
+    ('blue', _('Azul')),
+    ('green', _('Verde')),
+    ('yellow', _('Amarelo'))
+)
+
+CLASS_ROBOT_OPTIONS = (
+    ('attacker', _('Attacker')),
+    ('defender', _('Defender')),
+    ('tricker', _('Tricker')),
+    ('mechanical', _('Mechanical')),
+)
+
+COLOR_ROBOT_OPTIONS = (
+    ('black', _('Black')),
+    ('blue', _('Blue')),
+    ('red', _('Red'))
+)
+
+ATTRIBUTES = (
+    ('strength', _('STRENGTH')),
+    ('speed', _('SPEED')),
+    ('skill', _('SKILL')),
+    ('defense', _('DEFENSE'))
+)
+
+TRAIN_OBJ = {
+    'strength': 1.0,
+    'speed': 1.0,
+    'skill': 1.0,
+    'defense': 1.0
+}
+
 JWT_AUTH = {
     'JWT_RESPONSE_PAYLOAD_HANDLER': 'meta_soccer_backend.utils.jwt_response_payload_handler',
-    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=30),
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(hours=TOKEN_EXPIRED_AFTER_HOURS),
     'JWT_ALLOW_REFRESH': True,
 }
 

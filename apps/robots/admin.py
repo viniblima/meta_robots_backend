@@ -1,9 +1,7 @@
 from django.contrib import admin
-from apps.robots.forms import RobotForm
+from .forms import RobotForm
 
 from .models import Robot
-
-# Register your models here.
 
 
 @admin.register(Robot)

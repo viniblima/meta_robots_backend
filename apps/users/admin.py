@@ -25,6 +25,9 @@ class userAdmin(BaseUserAdmin):
                                    'is_superuser',), },),
         ('Datas importantes',
          {'fields': ('created_at', 'updated_at', 'last_login',)}
+         ),
+        ('Robôs',
+         {'fields': ('robots',)}
          )
     )
 

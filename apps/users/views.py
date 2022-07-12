@@ -36,24 +36,23 @@ class ConfirmUserApiView(GenericAPIView, BaseUserManager):
     Confirma o login do usuário
     """
     permission_classes = (IsAdminUser,)
-    
 
     def post(self, request, *args, **kwargs):
         queryset = get_object_or_404(
             get_user_model(), id=request.data.get('id', None))
 
-
         if queryset:
-            users = get_user_model().objects.filter(id=request.data.get('id'),is_confirm=False)
-            if users.count() :
+            users = get_user_model().objects.filter(
+                id=request.data.get('id'), is_confirm=False)
+            if users.count():
                 users.update(is_confirm=True)
                 return Response(data={'mensagem': 'sucesso'}, status=200)
             else:
                 return Response(data={'mensagem': 'usuário já ativado'}, status=400)
-            
-            
+
         else:
             return Response(data={'mensagem': 'Falha ao achar o usuário'}, status=404)
+
 
 class UserToConfirmListApiView(ListAPIView):
     """
@@ -70,6 +69,7 @@ class UserToConfirmListApiView(ListAPIView):
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
 
+
 class RefreshToken(VerifyJSONWebToken):
     def post(self, request, *args, **kwargs):
         result = super().post(request, *args, **kwargs)
@@ -83,4 +83,3 @@ class RefreshToken(VerifyJSONWebToken):
             pass
 
         return result
-    
