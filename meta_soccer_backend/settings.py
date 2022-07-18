@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'rest_framework',
+    'django_apscheduler',
 
     # apps
     'apps.users',
@@ -53,7 +54,8 @@ INSTALLED_APPS = [
     'apps.robots',
     'apps.request_join_team',
     'apps.match',
-    'apps.trains'
+    'apps.trains',
+    'apps.scheduler'
 ]
 
 # REST Configuration

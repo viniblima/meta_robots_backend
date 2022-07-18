@@ -18,7 +18,7 @@ class Match(models.Model):
     second_team = models.ForeignKey(
         Team, on_delete=models.SET_NULL, null=True, related_name='second_team')
     winner = models.ForeignKey(
-        Team, on_delete=models.SET_NULL, null=True, related_name='winner')
+        Team, on_delete=models.SET_NULL, null=True, related_name='winner', blank=True)
     schedule = models.DateTimeField(null=True)
     created_at = models.DateTimeField(_('Data da criação'), auto_now_add=True)
     modified_at = models.DateTimeField(_('Data da última mudança'), null=True)
